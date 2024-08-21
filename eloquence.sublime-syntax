@@ -1,0 +1,133 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+# See http://www.sublimetext.com/docs/syntax.html
+name: eloquence
+file_extensions:
+  - eq
+scope: source.eq
+contexts:
+  main:
+    # Strings begin and end with quotes, and use backslashes as an escape
+    # character
+    - match: '(DEF FN)([A-Z][a-z0-9_]*)(:)([A-Z][a-z0-9_]*\${0,1})'
+      captures:
+        1: keyword
+        2: storage.type
+        3: keyword.operator
+        4: entity.name.function
+      push:
+        - match: (FNEND)
+          captures:
+            1: keyword
+          pop: true
+        - include: common
+    - match: '(DEF FN)([A-Z][a-z0-9_]*\${0,1})'
+      captures:
+        1: keyword
+        2: entity.name.function
+      push:
+        - match: (FNEND)
+          captures:
+            1: keyword
+          pop: true
+        - include: common
+    - match: '(SUB )([A-Z][a-z0-9_]*)(:)([A-Z][a-z0-9_]*\${0,1})'
+      captures:
+        1: keyword
+        2: storage.type
+        3: keyword.operator
+        4: entity.name.function
+      push:
+        - match: (SUBEND)
+          captures:
+            1: keyword
+          pop: true
+        - include: common
+    - match: "(?<!DEL )(?<!LOAD )(SUB )([A-Z][a-z0-9_]*)"
+      captures:
+        1: keyword
+        2: entity.name.function
+      push:
+        - match: (SUBEND)
+          captures:
+            1: keyword
+          pop: true
+        - include: common
+    - include: common
+  common:
+    - match: "!.*"
+      scope: comment.line
+    - match: '(DEF FN)([A-Z][a-z0-9]*\${0,1})(?=.*=)'
+      captures:
+        1: keyword
+        2: entity.name.function
+    - match: '(FNTHIS)(\.)([A-Z][a-z0-9_]*\${0,1})'
+      captures:
+        1: keyword
+        2: keyword.operator
+        3: entity.name.function
+    - match: '(FN)([A-Z][a-z0-9_]*\${0,1})'
+      captures:
+        1: keyword
+        2: entity.name.function
+    - match: '(CALL (?:THIS){0,1}\.)([A-Z][a-z0-9_]*)'
+      captures:
+        1: keyword
+        2: keyword.operator
+        3: entity.name.function
+    - match: "(CALL DLL |LOAD DLL |CALL )([A-Z][a-z0-9_]*)"
+      captures:
+        1: keyword
+        2: entity.name.function
+    - match: (DATA )
+      captures:
+        1: keyword
+      push:
+        - match: $
+          pop: true
+        - match: ","
+          scope: keyword.operator
+        - match: '"'
+          push:
+            - meta_scope: string.quoted.double
+            - match: '"'
+              pop: true
+        - match: '[^,\n]+'
+          scope: string
+    - match: \b(COM|DIM|INTEGER|DINTEGER|REAL|FLOAT|SHORT)\b
+      scope: storage.type
+    - match: "(GOTO |THEN |GOSUB )([A-Z][a-z0-9_]*)(?=,)"
+      captures:
+        1: keyword
+        2: entity.name.section
+      push:
+        - match: $
+          pop: true
+        - match: "(,)([A-Z][a-z0-9_]*)"
+          captures:
+            1: keyword.operator
+            2: entity.name.section
+    - match: "^[A-Z][a-z0-9_]*(?=:)"
+      scope: entity.name.section
+    - match: \b(DESCRIPTION|IN DATA SET|NO OPERATOR|OPTION BASE|TRANSPARENT|BACKGROUND|DBROLLBACK|DUMP STACK|EXCLUSIVE|POPUP BOX|PREDICATE|RANDOMIZE|REVISION\$|DBCOMMIT|DBDELETE|DBUNLOCK|DBUPDATE|LASTLINE|MAPPNTR\$|READONLY|STANDARD|WORKFILE|CHANGES|COMMAND|DBBEGIN|DBCLOSE|ERRMSG\$|EXTENDS|FCREATE|GETENV\$|LDSPEC\$|MAPVOL\$|PACKFMT|PRINTER|RELEASE|REQUEST|RESTORE|SUBEXIT|TRAILER|TYPEOF\$|XASSIGN|XUNPACK|ACCEPT|APPEND|ASSIGN|BINCMP|BINIOR|CREATE|CURKEY|CURSOR|DBFIND|DBINFO|DBLOCK|DBOPEN|DEFINE|DETAIL|DROUND|ENABLE|EXPORT|HEADER|LENGTH|LINPUT|NUMERIC|NUMREC|PROUND|REMOTE|REPEAT|REPORT|RETURN|RIGHT\$|ROTATE|SELECT|SIGNAL|STDERR|STDOUT|STRUCT|SYSID\$|SYSTEM|TASKID|THREAD|TOTALS|UNPACK|UPDATE|XPURGE|BEGIN|BREAK|CLOCK|DATE\$|DBASE|DBGET|DBPUT|ERRM\$|ERROR|FIXED|FRACT|GRAND|IMAGE|LABEL|LDISP|LINES|LISTS|MERGE|PAUSE|PRINT|PURGE|REDIM|SHIFT|SLEEP|TIME\$|TOTAL|TRIM\$|UNTIL|USING|USRID|WFLEN|WHILE|WIDTH|XPACK|BEEP|CALL|CASE|CHR\$|DATA|DISP|DRAW|EDIT|ELSE|ERRL|ERRN|EXIT|FIND|FREE|FROM|GRAD|HOLE|LINE|LIST|LOAD|LOOP|LWC\$|MD5\$|NEXT|OTHR|PACK|PAGE|PNTR|PPID|READ|RPT\$|SCAN|SIZE|SORT|STEP|STOP|SYNC|THEN|THIS|TYPE|UPC\$|VAL\$|WAIT|WHEN|WITH|YPOS|ABS|ACS|ALL|ASN|ATN|COL|CON|COS|DEG|DEL|DIV|DLG|DLL|END|EXP|FOR|GET|INT|KEY|LEN|LET|LEX|LGT|LIN|LOG|MAT|MAX|MIN|MOD|NEW|NUM|OFF|PID|POS|RAD|RND|ROW|SET|SGN|SIN|SKP|SQR|SUB|TAN|USE|VAL|ZER|AS|BY|DO|IF|IS|ON|PI|TO)
+      scope: keyword
+    - match: '"'
+      push:
+        - meta_scope: string.quoted.double
+        - match: '"'
+          pop: true
+    - match: '\d+(\.\d+){0,1}(E\d+){0,1}'
+      scope: constant.numeric
+    - match: '\+|-|/|\*|=|\[|\]|;|,|>|<|\(|\)|&|\.|:|\^'
+      scope: keyword.operator
+    - match: BINAND|NOT|OR|AND|XOR|EXOR
+      scope: keyword.operator
+    - match: '[A-Z][a-z0-9_]*(?![A-Z])\${0,1}'
+      scope: variable
+    - match: REM.*$
+      scope: comment.line
+    - match: "(THEN GOTO |GOTO |THEN |GOSUB |USING REMOTE LISTS |USING )([A-Z][a-z0-9_]*)(?![A-Z]])"
+      captures:
+        1: keyword
+        2: entity.name.section

@@ -1,0 +1,26 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: eloquence-dlg
+file_extensions:
+  - dlg
+  - edlg
+scope: source.dlg
+contexts:
+  main:
+    - match: \#.*
+      scope: comment.line.number-sign
+    - match: "([a-zA-Z0-9_.]+) ([a-zA-Z0-9_.]+) {"
+      captures:
+        1: entity.name.type
+        2: variable
+      push:
+        - match: "}"
+          captures:
+            1: entity.name.type
+            2: variable
+          pop: true
+        - match: '(\.[a-zA-Z0-9_.]+) *= *(.*)'
+          captures:
+            1: entity.other.attribute-name
+        - include: main
