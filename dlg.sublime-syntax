@@ -5,11 +5,11 @@ name: eloquence-dlg
 file_extensions:
   - dlg
   - edlg
-scope: source.dlg
+scope: source.dlg.eq
 contexts:
   main:
     - match: \#.*
-      scope: comment.line.number-sign
+      scope: comment.line.number-sign.eq
     - match: "([a-zA-Z0-9_.]+) ([a-zA-Z0-9_.]+) {"
       captures:
         1: entity.name.type
