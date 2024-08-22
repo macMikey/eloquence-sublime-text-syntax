@@ -5,7 +5,7 @@ name: eloquence-dlg
 file_extensions:
   - dlg
   - edlg
-scope: source.dlg.eq
+scope: source.dlg
 contexts:
   main:
     - match: \#.*
