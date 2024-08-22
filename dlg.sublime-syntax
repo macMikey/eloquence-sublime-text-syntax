@@ -12,15 +12,15 @@ contexts:
       scope: comment.line.number-sign.eq
     - match: "([a-zA-Z0-9_.]+) ([a-zA-Z0-9_.]+) {"
       captures:
-        1: entity.name.type
-        2: variable
+        1: entity.name.type.dlg
+        2: variable.dlg
       push:
         - match: "}"
           captures:
-            1: entity.name.type
-            2: variable
+            1: entity.name.type.dlg
+            2: variable.dlg
           pop: true
         - match: '(\.[a-zA-Z0-9_.]+) *= *(.*)'
           captures:
-            1: entity.other.attribute-name
+            1: entity.other.attribute-name.dlg
         - include: main
