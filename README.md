@@ -20,6 +20,32 @@ Use [Package Control](https://sublime.wbond.net/installation). This will ensure 
 
 ## Version History:
 
+
+
+#### 0.0.5 09/14/24
+
+add NUMLINE, DELAY, FORM, HALT
+
+
+
+### 0.0.4 08/22/24
+
+modify captures
+
+
+
+### 0.0.3 08/22/24
+
+bugfix
+
+
+
+### 0.0.2 08/22/24
+
+modify scopes
+
+
+
 ### 0.0.1 08/06/24
 
 First try
