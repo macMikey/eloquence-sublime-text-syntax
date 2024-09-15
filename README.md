@@ -20,9 +20,16 @@ Use [Package Control](https://sublime.wbond.net/installation). This will ensure 
 
 ## Version History:
 
+### 0.0.8
+
+DISBLE, ENTER, SUM, NUMPAGE
+
+
+
 ### 0.0.7 09/14/24
 
 INPUT missing?!
+
 
 
 ### 0.0.6 09/14/24
@@ -31,7 +38,7 @@ longer tokens, e.g. FORM and DELAY should precede shorter ones, e.g. FOR and DEL
 
 
 
-#### 0.0.5 09/14/24
+### 0.0.5 09/14/24
 
 add NUMLINE, DELAY, FORM, HALT
 
